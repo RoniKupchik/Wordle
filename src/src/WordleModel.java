@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class WordleModel {
     enum WordleResponse {CORRECT, WRONG, WRONG_POSITION}
-    private List<String> words = new ArrayList<>();
+    public List<String> words = new ArrayList<>();
     private String newWord = "";
     Random r = new Random();
 
@@ -19,17 +19,18 @@ public class WordleModel {
         new WordleView();
     }
     public boolean isWord(String s){
+
         return words.contains(s);
     }
 
-    public WordleResponse[] checkGuess(String s) {
+    public WordleResponse[] checkGuess(String guess) {
 
         WordleResponse [] responses = new WordleResponse[5];
         for (int i = 0; i < newWord.length(); i++) {
-            if (s.charAt(i) == newWord.charAt(i)){
+            if (guess.charAt(i) == newWord.charAt(i)){
                 responses[i] = WordleResponse.CORRECT;
             }
-            else if (newWord.contains(s.charAt(i)+ "")){
+            else if (newWord.contains(guess.charAt(i)+ "")){
                 responses[i] = WordleResponse.WRONG_POSITION;
             }
             else{

@@ -9,8 +9,8 @@ public class WordleView extends JFrame{
     WordleModel wordleModel = new WordleModel();
     private JButton enter = new JButton("Enter");
     private JButton newGame = new JButton("New Game");
-    String s = "";
-    ArrayList<JLabel> Guesslist = new ArrayList<JLabel>();
+    String guess = "";
+    ArrayList<JLabel> Guesslist = new ArrayList<>();
     WordleView() {
         super("My Wordle");
 
@@ -19,7 +19,7 @@ public class WordleView extends JFrame{
 
         JPanel canvasPanel = new JPanel();
         this.add(canvasPanel, BorderLayout.CENTER);
-        canvasPanel.setLayout(new GridLayout(6, 5, 4, 4));
+        canvasPanel.setLayout(new GridLayout(6, 5, 6, 6));
         final int[] focusLabel = {0};
         for (int i = 0; i < 30; i++) {
             this.getContentPane().setLayout(new FlowLayout());
@@ -37,7 +37,7 @@ public class WordleView extends JFrame{
                 Guesslist.get(focusLabel[0]).setText(String.valueOf(e.getKeyChar()));
                 focusLabel[0]++;
                 char ch = e.getKeyChar();
-                s += ch;
+                guess += ch;
             }
         });
         newGame.addActionListener(new ActionListener() {
@@ -53,14 +53,16 @@ public class WordleView extends JFrame{
         enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!wordleModel.isWord(s)) {
-                    WordleModel.WordleResponse[] result = wordleModel.checkGuess(s);
+                System.out.println(wordleModel.words.size());
+                System.out.println("test");
+                if (!wordleModel.isWord(guess)) {
+                    WordleModel.WordleResponse[] result = wordleModel.checkGuess(guess);
                     changeBackground(result);
                 }
                 else{
                     JOptionPane.showMessageDialog(canvasPanel, "Invalid entry.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                s = "";
+                guess = "";
             }
             private void changeBackground(WordleModel.WordleResponse[] result) {
                 for (int j = 0; j < result.length; j++) {
