@@ -29,7 +29,7 @@ public class WordleView extends JFrame {
      * @param model the WordleModel where the game logic takes place
      */
     public WordleView(WordleModel model) {
-        super("Wordle - Complete");
+        super("Wordle Game");
         MODEL = model;
 
         this.setSize(500, 300);
@@ -56,7 +56,11 @@ public class WordleView extends JFrame {
             if (labelText.isEmpty()) break;
             guess.append(labelText);
         }
-        System.out.println("this is method return@#" + guess.toString());
+        System.out.println("this is method return: " + guess);
+        if(!MODEL.isWord(guess.toString().toLowerCase())){
+            //TODO after showing message refresh the row
+            JOptionPane.showMessageDialog(this, "Not Valid Word", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         return guess.toString();
     }
 

@@ -8,19 +8,19 @@ import java.util.*;
 public class WordleModel {
  //   enum WordleResponse {CORRECT, WRONG, WRONG_POSITION}
     private List<String> wordDictionary = new ArrayList<>();
-    private String secretWord = "TRAIN";
+    private String secretWord;
     Random r = new Random();
 
     public WordleModel() throws IOException {
-
-        wordDictionary = Files.readAllLines(Paths.get("C:\\Users\\ronik\\downloads\\answers.txt"));
+        wordDictionary = Files.readAllLines(Paths.get("/Users/ronikupchik/Downloads/answers.txt"));
+        newWord();
     }
 
     public String newWord() throws IOException {
      //   wordDictionary = Files.readAllLines(Paths.get("C:\\Users\\ronik\\downloads\\answers.txt"));
         int rand = r.nextInt(wordDictionary.size());
-        secretWord = "TRAIN";
-      //  secretWord = wordDictionary.get(rand);
+     //   secretWord = "TRAIN";
+        secretWord = wordDictionary.get(rand).toUpperCase();
         System.out.println(secretWord);
     //    new wordle.WordleView(new wordle.WordleModel());
         return secretWord;
