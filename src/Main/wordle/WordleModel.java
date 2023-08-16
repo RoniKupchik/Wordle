@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class WordleModel {
- //   enum WordleResponse {CORRECT, WRONG, WRONG_POSITION}
+
     private List<String> wordDictionary = new ArrayList<>();
     private String secretWord;
     Random r = new Random();
@@ -17,19 +17,14 @@ public class WordleModel {
     }
 
     public String newWord() throws IOException {
-     //   wordDictionary = Files.readAllLines(Paths.get("C:\\Users\\ronik\\downloads\\answers.txt"));
         int rand = r.nextInt(wordDictionary.size());
-     //   secretWord = "TRAIN";
         secretWord = wordDictionary.get(rand).toUpperCase();
         System.out.println(secretWord);
-    //    new wordle.WordleView(new wordle.WordleModel());
         return secretWord;
     }
     public boolean isWord(String s){
-
         return wordDictionary.contains(s);
     }
-
 
     public List<WordleResponse> checkGuess(String guessWord) {
         if (!wordDictionary.contains(guessWord.toLowerCase())){

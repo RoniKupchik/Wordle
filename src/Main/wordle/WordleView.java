@@ -57,10 +57,6 @@ public class WordleView extends JFrame {
             guess.append(labelText);
         }
         System.out.println("this is method return: " + guess);
-        if(!MODEL.isWord(guess.toString().toLowerCase())){
-            //TODO after showing message refresh the row
-            JOptionPane.showMessageDialog(this, "Not Valid Word", "Error", JOptionPane.ERROR_MESSAGE);
-        }
         return guess.toString();
     }
 
