@@ -56,7 +56,7 @@ public class WordleView extends JFrame {
             if (labelText.isEmpty()) break;
             guess.append(labelText);
         }
-        System.out.println("this is method return: " + guess);
+     //   System.out.println("this is method return: " + guess);
         return guess.toString();
     }
 
