@@ -42,14 +42,11 @@ public class WordleModel {
         //array of enums to keep track of responses
         List<WordleResponse> responses = new ArrayList<>(Collections.nCopies(5, null));
         //first find all the 'greens' then separate loop for other characters
-        System.out.println("secret word: " + secretWord);
         for (int i = 0; i < secretWord.length(); i++) {
             if (guessWord.charAt(i) == secretWord.charAt(i)){
-                System.out.println("here10");
                 responses.set(i, WordleResponse.CORRECT);
             }
             else{
-                System.out.println("here11");
                 nonMatches.add(secretWord.charAt(i));
             }
         }
@@ -59,7 +56,6 @@ public class WordleModel {
             if (responses.get(i) == null) {
                 char guessChar = guessWord.charAt(i);
                 if (nonMatches.contains(guessChar)) {
-                    System.out.println("here12");
                     responses.set(i, WordleResponse.WRONG_POSITION);
                     //checks for corner case where secret word is 'lands' and guess is 'calls', only one 'l' should be yellow
                     nonMatches.remove(Character.valueOf(guessChar));
