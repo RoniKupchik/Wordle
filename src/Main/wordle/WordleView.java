@@ -56,7 +56,6 @@ public class WordleView extends JFrame {
             if (labelText.isEmpty()) break;
             guess.append(labelText);
         }
-     //   System.out.println("this is method return: " + guess);
         return guess.toString();
     }
 
@@ -65,17 +64,10 @@ public class WordleView extends JFrame {
      */
     private void checkGuess() throws IOException {
         List<WordleResponse> response = (MODEL.checkGuess(getCurrentGuess()));
-        System.out.println("in checkguess:" + response + " :size of res: " + response.size());
-        //this check doesnt work since response size is always 0
-//        System.out.println("this is response size:# "+ response.size());
-//        if (response.size() <  NUM_COLS) {
-//            JOptionPane.showMessageDialog(this, "Invalid entry.", "Error", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
+
         int countCorrect = 0;
         for (int i = 0; i < 5; i++) {
             WordleResponse code = response.get(i);
-            System.out.println("response at position " + i+ ": "+ response.get(i));
             switch (code) {
                 case WRONG:
                     cells[numGuess][i].setBackground(UIManager.getColor("Panel.background"));
@@ -86,6 +78,10 @@ public class WordleView extends JFrame {
                 case CORRECT:
                     cells[numGuess][i].setBackground(Color.GREEN);
                     countCorrect++;
+                    break;
+                case ILLEGAL_WORD:
+                    // Handle illegal word response here (e.g., prompt user for a legal word)
+                    JOptionPane.showMessageDialog(this, "Please enter a valid word.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
             }
         }
@@ -141,40 +137,38 @@ public class WordleView extends JFrame {
     private class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-         //   int currentLength = getCurrentGuess().length();
             int currentLength = currentGuess.length();
             char keyCode = e.getKeyChar();
-            if (keyCode == VK_ENTER && currentLength == NUM_COLS) { // Enter
+            if (keyCode == VK_ENTER && currentLength == NUM_COLS) {
                 try {
                     System.out.println("here4");
                     checkGuess();
-                    currentGuess.setLength(0); // Clear the currentGuess StringBuilder
-                    Arrays.stream(cells[numGuess]).forEach(label -> label.setText("")); // Clear the text in JLabels
-              //      numGuess++;
+                    currentGuess.setLength(0);
+                    Arrays.stream(cells[numGuess]).forEach(label -> label.setText(""));
+                    // Reset numGuess if it exceeds the number of rows
                     if (numGuess >= NUM_ROWS) {
-                        numGuess = 0; // Reset numGuess if it exceeds the number of rows
+                        numGuess = 0;
                     }
+                    // Set the focus back to the WordleView frame
                     SwingUtilities.invokeLater(() -> {
-                        requestFocusInWindow(); // Set the focus back to the WordleView frame
+                        requestFocusInWindow();
                     });
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
 
-            } else if (keyCode == VK_BACK_SPACE && currentLength >= 1) { // Backspace
+            }
+            else if (keyCode == VK_BACK_SPACE && currentLength >= 1) {
                 System.out.println("here5");
-                currentGuess.deleteCharAt(currentLength - 1);  // Remove the last character from the currentGuess
+                currentGuess.deleteCharAt(currentLength - 1);
                 cells[numGuess][currentLength - 1].setText("");
             } else if (currentLength != NUM_COLS && keyCode >= 'A' && keyCode <= 'z' && (keyCode >= 'a' || keyCode <= 'Z')) {
                 System.out.println("here6");
-                currentGuess.append(Character.toUpperCase(keyCode));  // Append the entered character to currentGuess
-                int newLength = currentGuess.length(); // Get the new length
+                currentGuess.append(Character.toUpperCase(keyCode));
+                int newLength = currentGuess.length();
                 // if guess is not currently full, and is a letter in the English alphabet:
-                cells[numGuess][newLength - 1].setText(String.valueOf(Character.toUpperCase(keyCode))); // Update the text
-             //   cells[numGuess][currentLength].setText(String.valueOf(Character.toUpperCase(e.getKeyChar())));
+                cells[numGuess][newLength - 1].setText(String.valueOf(Character.toUpperCase(keyCode)));
             }
-
         }
-
     }
 }

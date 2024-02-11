@@ -7,19 +7,25 @@ import java.util.*;
 
 public class WordleModel {
 
-    private List<String> wordDictionary = new ArrayList<>();
+    private HashSet<String> wordDictionary = new HashSet<>();
     private String secretWord;
     Random r = new Random();
 
     public WordleModel() throws IOException {
-        wordDictionary = Files.readAllLines(Paths.get("/Users/ronikupchik/Downloads/answers.txt"));
+        List<String> words = Files.readAllLines(Paths.get("/Users/ronikupchik/Downloads/answers.txt"));
+        wordDictionary.addAll(words);
         newWord();
     }
 
     public String newWord() throws IOException {
+//        int rand = r.nextInt(wordDictionary.size());
+//        secretWord = wordDictionary.get(rand).toUpperCase();
         int rand = r.nextInt(wordDictionary.size());
-        secretWord = wordDictionary.get(rand).toUpperCase();
-        System.out.println(secretWord);
+        Iterator<String> iterator = wordDictionary.iterator();
+        for (int i = 0; i < rand; i++) {
+            iterator.next();
+        }
+        secretWord = iterator.next().toUpperCase();
         return secretWord;
     }
     public boolean isWord(String s){
@@ -28,16 +34,13 @@ public class WordleModel {
 
     public List<WordleResponse> checkGuess(String guessWord) {
         if (!wordDictionary.contains(guessWord.toLowerCase())){
-            System.out.println(wordDictionary.size());
-            System.out.println("illegal word");
+            return Collections.singletonList(WordleResponse.ILLEGAL_WORD);
         }
         // to store letters which aren't 'greens' to avoid corner case where correct word is 'train' and guess is 'teeth'
         // so the 2nd 't' should not return as yellow
         ArrayList<Character> nonMatches = new ArrayList<>();
         //array of enums to keep track of responses
-      //  List<WordleResponse> responses = new ArrayList<>(5);
         List<WordleResponse> responses = new ArrayList<>(Collections.nCopies(5, null));
-       // WordleResponse [] responses = new WordleResponse[5];
         //first find all the 'greens' then separate loop for other characters
         System.out.println("secret word: " + secretWord);
         for (int i = 0; i < secretWord.length(); i++) {
@@ -59,17 +62,13 @@ public class WordleModel {
                     System.out.println("here12");
                     responses.set(i, WordleResponse.WRONG_POSITION);
                     //checks for corner case where secret word is 'lands' and guess is 'calls', only one 'l' should be yellow
-                    nonMatches.remove(Character.valueOf(guessChar));  // Remove the character from nonMatches
-                //    Object ch = guessWord.charAt(i);
-                 //   nonMatches.remove(ch);
+                    nonMatches.remove(Character.valueOf(guessChar));
                 } else {
-                    System.out.println("here13");
                     responses.set(i, WordleResponse.WRONG);
 
                 }
             }
         }
-        System.out.println("in wordle model checkguess: " + responses);
         return responses;
     }
 }
