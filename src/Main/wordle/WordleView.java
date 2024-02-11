@@ -141,7 +141,6 @@ public class WordleView extends JFrame {
             char keyCode = e.getKeyChar();
             if (keyCode == VK_ENTER && currentLength == NUM_COLS) {
                 try {
-                    System.out.println("here4");
                     checkGuess();
                     currentGuess.setLength(0);
                     Arrays.stream(cells[numGuess]).forEach(label -> label.setText(""));
@@ -159,11 +158,9 @@ public class WordleView extends JFrame {
 
             }
             else if (keyCode == VK_BACK_SPACE && currentLength >= 1) {
-                System.out.println("here5");
                 currentGuess.deleteCharAt(currentLength - 1);
                 cells[numGuess][currentLength - 1].setText("");
             } else if (currentLength != NUM_COLS && keyCode >= 'A' && keyCode <= 'z' && (keyCode >= 'a' || keyCode <= 'Z')) {
-                System.out.println("here6");
                 currentGuess.append(Character.toUpperCase(keyCode));
                 int newLength = currentGuess.length();
                 // if guess is not currently full, and is a letter in the English alphabet:

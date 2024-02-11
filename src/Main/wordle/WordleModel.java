@@ -33,12 +33,21 @@ public class WordleModel {
     }
 
     public List<WordleResponse> checkGuess(String guessWord) {
+        // Input validation: Check for null or empty guessed word
+        if (guessWord == null || guessWord.isEmpty()) {
+            return Collections.singletonList(WordleResponse.ILLEGAL_WORD);
+        }
+        // Input validation: Check if guessed word length matches secret word length
+        if (guessWord.length() != secretWord.length()) {
+            return Collections.singletonList(WordleResponse.ILLEGAL_WORD);
+        }
         if (!wordDictionary.contains(guessWord.toLowerCase())){
             return Collections.singletonList(WordleResponse.ILLEGAL_WORD);
         }
         // to store letters which aren't 'greens' to avoid corner case where correct word is 'train' and guess is 'teeth'
         // so the 2nd 't' should not return as yellow
-        ArrayList<Character> nonMatches = new ArrayList<>();
+   //     ArrayList<Character> nonMatches = new ArrayList<>();
+        Set<Character> nonMatches = new HashSet<>();
         //array of enums to keep track of responses
         List<WordleResponse> responses = new ArrayList<>(Collections.nCopies(5, null));
         //first find all the 'greens' then separate loop for other characters
@@ -61,7 +70,6 @@ public class WordleModel {
                     nonMatches.remove(Character.valueOf(guessChar));
                 } else {
                     responses.set(i, WordleResponse.WRONG);
-
                 }
             }
         }
