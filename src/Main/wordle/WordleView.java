@@ -80,7 +80,7 @@ public class WordleView extends JFrame {
                     countCorrect++;
                     break;
                 case ILLEGAL_WORD:
-                    // Handle illegal word response here (e.g., prompt user for a legal word)
+                    // Handle illegal word response here
                     JOptionPane.showMessageDialog(this, "Please enter a valid word.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
             }

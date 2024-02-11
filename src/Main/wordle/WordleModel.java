@@ -46,8 +46,8 @@ public class WordleModel {
         }
         // to store letters which aren't 'greens' to avoid corner case where correct word is 'train' and guess is 'teeth'
         // so the 2nd 't' should not return as yellow
-   //     ArrayList<Character> nonMatches = new ArrayList<>();
-        Set<Character> nonMatches = new HashSet<>();
+        ArrayList<Character> nonMatches = new ArrayList<>();
+
         //array of enums to keep track of responses
         List<WordleResponse> responses = new ArrayList<>(Collections.nCopies(5, null));
         //first find all the 'greens' then separate loop for other characters
